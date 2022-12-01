@@ -1,0 +1,29 @@
+<section class="Toolbar">
+  <a [class.disabled]="id$ <= 1" [routerLink]="['/beers', +id$ - 1]"
+    >Previous</a
+  >
+  <a [routerLink]="['/beers']">Home</a>
+  <p>{{ id$ }}</p>
+  <a [routerLink]="['/beers', +id$ + 1]">Next</a>
+</section>
+<section
+  class="BeerDetail"
+  *ngIf="beerDetail$ | async as beer; else loadingBlock"
+>
+  <img src="{{ beer.image_url }}" alt="beer image" />
+  <section class="beer">
+    <h2>{{ beer.name }}</h2>
+    <h3>Description</h3>
+    <p>{{ beer.description }}</p>
+    <p id="first_brewed">First brewed: {{ beer.first_brewed }}</p>
+    <p id="abv">Alcohol By Volume: {{ beer.abv }}</p>
+    <p id="ibu">International Bittering Unit: {{ beer.ibu }}</p>
+    <h3>Food pairing:</h3>
+    <ul id="food_pairing">
+      <li *ngFor="let pairing of beer.food_pairing">
+        {{ pairing }}
+      </li>
+    </ul>
+  </section>
+</section>
+<ng-template #loadingBlock>Loading...</ng-template>

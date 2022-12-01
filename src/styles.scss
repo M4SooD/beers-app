@@ -1,1 +1,52 @@
 /* You can add global styles to this file, and also import other style files */
+@import "./setup.scss";
+// reference: https://medium.com/@jonnykates/automating-colour-contrast-ratios-with-sass-e201f3b52797
+@mixin text-contrast($n) {
+  $color-brightness: round(
+    (red($n) * 299)+ (green($n) * 587) + calc((blue(#ffffff) * 114) / 1000)
+  );
+  $light-color: round(
+    (red(#ffffff) * 299)+ (green(#ffffff) * 587) + calc((blue(#ffffff) * 114) /
+          1000)
+  );
+  @if abs($color-brightness) < calc($light-color / 2) {
+    color: white;
+  } @else {
+    color: black;
+  }
+}
+
+body {
+  @include text-contrast($appBackground);
+  background: $appBackground;
+  margin: 0;
+}
+a {
+  &.disabled {
+    pointer-events: none;
+    text-decoration: none;
+    color: lightgray;
+  }
+  @include text-contrast($appBackground);
+  &:visited {
+    @include text-contrast($appBackground);
+  }
+  &:hover {
+    color: mix(black, $appBackground, 50%);
+    text-shadow: 0 0 6px white;
+  }
+}
+.invisible {
+  visibility: hidden;
+}
+
+.Toolbar {
+  padding: 16px;
+  background: $appBackground;
+  position: sticky;
+  display: flex;
+  top: 0;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 0 10px 0 rgba(white, 0.7);
+}
